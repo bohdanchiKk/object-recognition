@@ -12,4 +12,4 @@ Object Recognition System built using Java for backend processing and Angular fo
     Database:
         PostgreSQL: For storing image metadata and recognition results.
         AWS S3: For storing images in cloud
-        <img width="1535" alt="Screenshot 2024-12-28 at 17 03 07" src="https://github.com/user-attachments/assets/c04bc58c-559f-4220-98f8-397e8df80192" />
+<img width="1535" alt="Screenshot 2024-12-28 at 17 03 07" src="https://github.com/user-attachments/assets/c04bc58c-559f-4220-98f8-397e8df80192" />
