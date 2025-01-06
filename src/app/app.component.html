@@ -1,116 +1,37 @@
-<!--<div class="container">-->
-<!--  &lt;!&ndash; Upload Section &ndash;&gt;-->
-<!--  <div>-->
-<!--    <h2>Upload an Image</h2>-->
-<!--    <p>Select an image to upload:</p>-->
-<!--    <label *ngIf="!selectedFile" for="file-upload" class="file-upload-label">Choose a file</label>-->
-<!--    <input type="file" id="file-upload" (change)="onFileSelected($event)" class="file-upload-input" />-->
-<!--    <button (click)="uploadImage()" [disabled]="!selectedFile || isLoading">Upload</button>-->
-
-<!--    <p *ngIf="selectedFile">Selected File: {{ selectedFile.name }}</p>-->
-
-<!--    &lt;!&ndash; Loading indicator &ndash;&gt;-->
-<!--    <mat-spinner *ngIf="isLoading" diameter="50"></mat-spinner>-->
-<!--  </div>-->
-
-<!--  &lt;!&ndash; Search Section &ndash;&gt;-->
-<!--  <div>-->
-<!--    <h2>Search Images</h2>-->
-<!--    <p>Enter a keyword to search for images:</p>-->
-<!--    <input [(ngModel)]="searchQuery" placeholder="Enter search query" />-->
-<!--    <button (click)="searchImages()" [disabled]="!searchQuery.trim()">Search</button>-->
-
-<!--    <div *ngIf="searchResults.length > 0">-->
-<!--      <h3>Results:</h3>-->
-<!--      <div *ngFor="let result of searchResults">-->
-<!--        <img [src]="result.url" alt="Search Result" style="width: 200px; height: auto;" />-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <p *ngIf="searchResults.length === 0 && searchQuery.trim()">No results found.</p>-->
-<!--  </div>-->
-<!--</div>-->
-
-<!--&lt;!&ndash; All Pics Section &ndash;&gt;-->
-<!--<div class="container">-->
-<!--  <h2>All Uploaded Images</h2>-->
-<!--  <div *ngIf="allImages.length > 0">-->
-<!--    <div *ngFor="let image of allImages">-->
-<!--      <img [src]="image.url" alt="Uploaded Image" style="width: 200px; height: auto; margin: 10px;" />-->
-<!--    </div>-->
-<!--  </div>-->
-<!--  <p *ngIf="allImages.length === 0">No images have been uploaded yet.</p>-->
-<!--</div>-->
-
-
-
-<!--<router-outlet></router-outlet>-->
-
-<!--&lt;!&ndash; Styling for the sections &ndash;&gt;-->
-<!--<style>-->
-<!--  .file-upload-input {-->
-<!--    display: none;-->
-<!--  }-->
-<!--  .container {-->
-<!--    padding: 20px;-->
-<!--  }-->
-<!--  div {-->
-<!--    margin-bottom: 30px;-->
-<!--  }-->
-
-<!--  input[type="file"] {-->
-<!--    margin-bottom: 10px;-->
-<!--  }-->
-
-<!--  button {-->
-<!--    padding: 8px 16px;-->
-<!--    margin-top: 10px;-->
-<!--    cursor: pointer;-->
-<!--  }-->
-
-<!--  input {-->
-<!--    padding: 8px;-->
-<!--    margin-bottom: 10px;-->
-<!--    width: 100%;-->
-<!--  }-->
-
-<!--  img {-->
-<!--    margin-top: 10px;-->
-<!--  }-->
-<!--</style>-->
-
-<!--<router-outlet></router-outlet>-->
-
 <div class="container">
-  <!-- Upload Section -->
   <div class="upload-section">
     <h2>Upload an Image</h2>
     <p>Select an image to upload:</p>
-    <label *ngIf="!selectedFile" for="file-upload" class="file-upload-label"
+    <label *ngIf="selectedFiles.length == 0" for="file-upload" class="file-upload-label"
     >Choose a file</label
     >
     <input
       type="file"
       id="file-upload"
+      multiple
       (change)="onFileSelected($event)"
       class="file-upload-input"
     />
     <button
       class="upload-btn"
-      (click)="uploadImage()"
-      [disabled]="!selectedFile || isLoading"
+      (click)="uploadImages()"
+      [disabled]="!selectedFiles || isLoading"
     >
       Upload
     </button>
 
-    <p *ngIf="selectedFile" class="file-info">
-      Selected File: {{ selectedFile.name }}
+    <p *ngIf="selectedFiles.length > 0" class="file-info">
+      Selected Files:
     </p>
+    <ul *ngIf="selectedFiles.length > 0">
+      <li *ngFor="let file of selectedFiles">
+        {{ file.name }}
+      </li>
+    </ul>
 
-    <!-- Loading indicator -->
     <mat-spinner *ngIf="isLoading" diameter="50"></mat-spinner>
   </div>
 
-  <!-- Search Section -->
   <div class="search-section">
     <h2>Search Images</h2>
     <p>Enter a keyword to search for images:</p>

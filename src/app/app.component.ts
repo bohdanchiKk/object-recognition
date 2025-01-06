@@ -8,10 +8,11 @@ import {ImageService} from './services/image.service';
   selector: 'app-root',
   imports: [RouterOutlet, SharedModule],
   templateUrl: './app.component.html',
+  standalone: true,
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit{
-  selectedFile: File | null = null;
+  selectedFiles: File[] = [];
 
   searchQuery: string = '';
   searchResults: { url: string }[] = [];
@@ -20,35 +21,39 @@ export class AppComponent implements OnInit{
 
   isLoading = false;
 
-  constructor(private imageService: ImageService, private router: Router) {
+  constructor(private imageService: ImageService) {
   }
 
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
+    this.selectedFiles = Array.from(event.target.files);
   }
 
-  uploadImage() {
-    this.isLoading = true;
-    if (!this.selectedFile) return;
+  uploadImages(): void {
+    if (!this.selectedFiles || this.selectedFiles.length === 0) {
+      return;
+    }
 
-    this.imageService.uploadImage(this.selectedFile).subscribe({
+    this.isLoading = true;
+
+    this.imageService.uploadImages(this.selectedFiles).subscribe({
       next: () => {
-        alert('Image uploaded succssfully!');
-        this.selectedFile = null;
+        alert('Images uploaded successfully');
+        this.selectedFiles = [];
         this.isLoading = false;
+        window.location.reload();
       },
       error: (err) => {
-        console.error('Error occurred while uploading image');
-        if (err.error) {
-          alert('Error occurred: ' + err.error); // err.error will contain the message sent from the backend
-        } else {
-          alert('An unexpected error occurred: ' + err.statusText);
-        }
-        this.selectedFile = null;
+        console.log('Error: ', err);
+        alert(`An error occurred: ${err.message}`);
+        this.selectedFiles = [];
         this.isLoading = false;
-      }
+      },
     })
+
+
   }
+
+
 
   searchImages() {
     if (!this.searchQuery.trim()) return;
