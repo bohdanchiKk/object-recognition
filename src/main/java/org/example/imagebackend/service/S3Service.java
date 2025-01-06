@@ -83,8 +83,8 @@ public class S3Service {
     private List<String> detectDescription(String fileName) {
         DetectLabelsRequest detectLabelsRequest = DetectLabelsRequest.builder()
                 .image(software.amazon.awssdk.services.rekognition.model.Image.builder().s3Object(S3Object.builder().bucket(bucketName).name(fileName).build()).build())
-                .maxLabels(100)
-                .minConfidence(20F)
+                .maxLabels(20)
+                .minConfidence(70F)
                 .build();
 
         DetectLabelsResponse detectLabelsResponse = rekognitionClient.detectLabels(detectLabelsRequest);
